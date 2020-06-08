@@ -1,0 +1,33 @@
+Text Bin.NET macro's - by: Peter Swinkels, ***2015***
+
+Two types of macro's that can be used to process a text fragment returned by Text bin:
+1. One that verifies whether the specified characters occur the specified number of times.
+2. Another that verifies whether the specified characters appear at the specified relative positions inside a fragment.
+
+
+A character counting macro consists of one or more pairs specifying a character and number delimited by commas. A colon delimits the character and number. Numbers can be prefixed with a less than or greater than sign indicating that a character should appear no less or more than indicated by the number.
+
+Character:	Name:			Function:
+:		colon			Delimits a character and number.
+,		comma			Delimits character and number pairs.
+\		backslash		Indicates that the comma or colon directly next to it is not a delimiter.
+<		less than sign		Indicates that a character should occur less times than indicated when prefixed to a number.
+>		greater than sign	Indicates that a character should occur more times than indicated when prefixed to a number.
+
+
+A position checking macro consists of one or more pairs specifying a text fragment and arguments (positions and options) delimited by comma's. A colon delimits the text fragment and its arguments. The arguments can contain symbols indicating at which positions a text fragment is expected (or not) to appear and whether the check is case sensitive.
+
+
+Character:	Name:			Function:
+:		colon			Delimits a character and number.
+,		comma			Delimits character and number pairs.
+\		backslash		Indicates that the comma or colon directly next to it is not a delimiter.
+E		the letter "E"		Optional argument - indicates that a fragment should occur at the end.
+F		the letter "F"		Optional argument - indicates that a fragment should not occur at any of the specified positions.
+I		the letter "I"		Optional argument - indicates that the fragment search is case insensitive.
+M		the letter "M"		Optional argument - indicates that a fragment should occur in the middle.
+S		the letter "S"		Optional argument - indicates that a fragment should occur at the start.
+
+
+Note:
+A backslash directly before a comma or colon indicates that that specific character is not a delimiter.
