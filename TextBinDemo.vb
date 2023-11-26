@@ -263,34 +263,32 @@ Public Module TextBinDemoModule
          Console.ForegroundColor = ConsoleColor.Gray
 
          DisplayInformation()
-         FileName = GetInput("Path: ")
-         If FileName = Nothing Then Exit Sub
-         If FileName.StartsWith("""") Then FileName = FileName.Substring(1)
-         If FileName.EndsWith("""") Then FileName = FileName.Substring(0, FileName.Length - 1)
+         FileName = GetInput("Path: ").Trim(""""c)
+         If Not FileName = Nothing Then
+            Console.WriteLine()
+            Console.WriteLine("0. DLL references")
+            Console.WriteLine("1. E-Mail addresses")
+            Console.WriteLine("2. GUID Ids")
+            Console.WriteLine("3. Human readable (character codes 31-127)")
+            Console.WriteLine("4. Names (last, initials (first))")
+            Console.WriteLine("5. URLs")
 
-         Console.WriteLine()
-         Console.WriteLine("0. DLL references")
-         Console.WriteLine("1. E-Mail addresses")
-         Console.WriteLine("2. GUID Ids")
-         Console.WriteLine("3. Human readable (character codes 31-127)")
-         Console.WriteLine("4. Names (last, initials (first))")
-         Console.WriteLine("5. URLs")
+            Console.WriteLine()
+            SelectedDataType = GetSelection($"Data Type (default: {SelectedDataType}): ", "012345", "3")
+            If Not SelectedDataType = Nothing Then
+               IncludeUnicode = (GetSelection("Include unicode y/n? (default: y): ", "NYny", "y").ToLower() = "y")
+               StartSearch(FileName, DirectCast(CInt(SelectedDataType), DataTypesE), IncludeUnicode)
 
-         Console.WriteLine()
-         SelectedDataType = GetSelection($"Data Type (default: {SelectedDataType}): ", "012345", "3")
-         If SelectedDataType = Nothing Then Exit Sub
-
-         IncludeUnicode = (GetSelection("Include unicode y/n? (default: y): ", "NYny", "y").ToLower() = "y")
-         StartSearch(FileName, DirectCast(CInt(SelectedDataType), DataTypesE), IncludeUnicode)
-
-         Console.BackgroundColor = ConsoleColor.Gray
-         Console.ForegroundColor = ConsoleColor.Black
-         Console.Write($" {SearchResultsList().Count} { If(SearchResultsList().Count = 1, "result", "results")} in ""{FileName}"" ")
-         Console.BackgroundColor = ConsoleColor.Black
-         Console.ForegroundColor = ConsoleColor.Gray
-         Console.WriteLine()
-         Console.WriteLine("Press any key to quit...")
-         Do : Loop Until Console.KeyAvailable()
+               Console.BackgroundColor = ConsoleColor.Gray
+               Console.ForegroundColor = ConsoleColor.Black
+               Console.Write($" {SearchResultsList().Count} { If(SearchResultsList().Count = 1, "result", "results")} in ""{FileName}"" ")
+               Console.BackgroundColor = ConsoleColor.Black
+               Console.ForegroundColor = ConsoleColor.Gray
+               Console.WriteLine()
+               Console.WriteLine("Press any key to quit...")
+               Do : Loop Until Console.KeyAvailable()
+            End If
+         End If
       Catch ExceptionO As Exception
          HandleError(ExceptionO)
       End Try
