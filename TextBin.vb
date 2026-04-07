@@ -12,8 +12,8 @@ Imports System.Text
 
 'This class contains the Text Bin interface.
 Public Class TextBinClass
-   Public Event FoundText(Text As String, ByRef ContinueSearch As Boolean) 'The event raised when a character is found that is not considered to be text.
-   Public Event HandleError(Exceptiono As Exception)                       'The event raised when an error occurs.
+   Public Event FoundText(Text As String, ByRef ContinueSearch As Boolean)   'Defines the event raised when a character is found that is not considered to be text.
+   Public Event HandleException(Exceptiono As Exception)                     'Defines the event raised when an error occurs.
 
    'This enumeration contains the categories of characters used by this class.
    Private Enum CharacterCategoriesE As Integer
@@ -65,7 +65,7 @@ Public Class TextBinClass
 
          Return Category
       Catch ExceptionO As Exception
-         RaiseEvent HandleError(ExceptionO)
+         RaiseEvent HandleException(ExceptionO)
       End Try
 
       Return CharacterCategoriesE.Unreadable
@@ -82,7 +82,7 @@ Public Class TextBinClass
             .IncludeUnicode = IncludeUnicode
          End With
       Catch ExceptionO As Exception
-         RaiseEvent HandleError(ExceptionO)
+         RaiseEvent HandleException(ExceptionO)
       End Try
    End Sub
 
@@ -124,7 +124,7 @@ Public Class TextBinClass
             End If
          Next Index
       Catch ExceptionO As Exception
-         RaiseEvent HandleError(ExceptionO)
+         RaiseEvent HandleException(ExceptionO)
       End Try
    End Sub
 
@@ -133,7 +133,7 @@ Public Class TextBinClass
       Try
          If Not BinaryFile = Nothing Then Return File.ReadAllBytes(BinaryFile)
       Catch ExceptionO As Exception
-         RaiseEvent HandleError(ExceptionO)
+         RaiseEvent HandleException(ExceptionO)
       End Try
 
       Return {}
@@ -150,7 +150,7 @@ Public Class TextBinClass
             IncludeUnicode = .IncludeUnicode
          End With
       Catch ExceptionO As Exception
-         RaiseEvent HandleError(ExceptionO)
+         RaiseEvent HandleException(ExceptionO)
       End Try
    End Sub
 End Class

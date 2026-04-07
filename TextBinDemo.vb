@@ -57,7 +57,7 @@ Public Module TextBinDemoModule
             End If
          Next Item
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return True
@@ -83,7 +83,7 @@ Public Module TextBinDemoModule
 
          Return ((FoundPositions = Positions) = ExpectedResult)
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return Nothing
@@ -115,7 +115,7 @@ Public Module TextBinDemoModule
 
          Return True
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return Nothing
@@ -150,11 +150,25 @@ Public Module TextBinDemoModule
 
          Return DataType
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return DataTypesE.None
    End Function
+
+   'This procedure displays any exceptions that occur.
+   Private Sub DisplayException(ExceptionO As Exception)
+      Try
+         Console.ForegroundColor = ConsoleColor.Red
+         Console.WriteLine()
+         Console.WriteLine(ExceptionO.Message)
+         Console.WriteLine($"Error code: { New Win32Exception(ExceptionO.Message).ErrorCode}")
+         Console.WriteLine()
+         Console.ForegroundColor = ConsoleColor.Gray
+      Catch
+         [Exit](0)
+      End Try
+   End Sub
 
    'This procedure display's this program's information.
    Private Sub DisplayInformation()
@@ -164,7 +178,7 @@ Public Module TextBinDemoModule
             Console.WriteLine()
          End With
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
@@ -186,7 +200,7 @@ Public Module TextBinDemoModule
                Return CheckFragmentsPositions(Text, "\://:M")
          End Select
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return False
@@ -198,7 +212,7 @@ Public Module TextBinDemoModule
          Console.Write(Prompt)
          Return Console.ReadLine()
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return ""
@@ -230,25 +244,11 @@ Public Module TextBinDemoModule
 
          Return Selection
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return ""
    End Function
-
-   'This procedure handles any error that occur.
-   Private Sub HandleError(ExceptionO As Exception)
-      Try
-         Console.ForegroundColor = ConsoleColor.Red
-         Console.WriteLine()
-         Console.WriteLine(ExceptionO.Message)
-         Console.WriteLine($"Error code: { New Win32Exception(ExceptionO.Message).ErrorCode}")
-         Console.WriteLine()
-         Console.ForegroundColor = ConsoleColor.Gray
-      Catch
-         [Exit](0)
-      End Try
-   End Sub
 
    'This procedure is executed when this program is started.
    Public Sub Main()
@@ -290,7 +290,7 @@ Public Module TextBinDemoModule
             End If
          End If
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
@@ -307,7 +307,7 @@ Public Module TextBinDemoModule
 
          Return CurrentSearchResultsList
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return New List(Of String)
@@ -332,7 +332,7 @@ Public Module TextBinDemoModule
 
          Return Texts
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return New List(Of String)
@@ -345,7 +345,7 @@ Public Module TextBinDemoModule
          CurrentDataType(NewDataType:=DataType, NewIncludeUnicode:=IncludeUnicode)
          TextBin.FindText(TextBin.GetBinaryData(FileName))
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
@@ -372,16 +372,16 @@ Public Module TextBinDemoModule
 
          ContinueSearch = If(Console.KeyAvailable, Not (Console.ReadKey(intercept:=True).Key = ConsoleKey.Escape), True)
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
    'This procedure is called when an error occurs in the Text Bin class.
-   Private Sub TextBin_HandleError(TextBinExceptionO As Exception) Handles TextBin.HandleError
+   Private Sub TextBin_HandleError(TextBinExceptionO As Exception) Handles TextBin.HandleException
       Try
-         HandleError(TextBinExceptionO)
+         DisplayException(TextBinExceptionO)
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 End Module
